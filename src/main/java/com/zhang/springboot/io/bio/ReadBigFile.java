@@ -18,6 +18,7 @@ public class ReadBigFile {
       while(is.read(buffer)>1){
         String str= new String (buffer);
         System.out.println(str);
+        break;
         //byteInputStream.write(buffer);
       }
       //Long length = file.length();
