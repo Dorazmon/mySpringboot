@@ -135,6 +135,7 @@ public class AioServer implements Runnable{
   public static void main(String... args) throws Exception
   {
     AioServer server = new AioServer(8080);
+    System.out.println("Aio服务器开启");
     new Thread(server).start();
   }
 }
