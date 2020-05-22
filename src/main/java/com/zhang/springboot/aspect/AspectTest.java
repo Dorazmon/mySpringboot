@@ -2,10 +2,8 @@ package com.zhang.springboot.aspect;
 
 import com.zhang.springboot.annotation.MyAnnotaion;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
@@ -22,7 +20,7 @@ public class AspectTest {
     //通知
     @Before("auditAspect()")
     public void doBefore(JoinPoint joinPoint) {
-        System.out.println("触发到 @Before(\"auditAspect()\")");
+        System.out.println("触发前置通知 @Before(\"auditAspect()\")");
     }
 
     /**
@@ -34,7 +32,7 @@ public class AspectTest {
     public void doAfrterReturning(JoinPoint joinPoint) {
 
         Object[] args = joinPoint.getArgs();
-        System.out.println("触发 @AfterReturning(\"auditAspect()\")");
+        System.out.println("触发后置通知 @AfterReturning(\"auditAspect()\")");
         System.out.println(args.length);
         getControllerMethodDescription(joinPoint);
     }
@@ -70,6 +68,15 @@ public class AspectTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 环绕通知，方法拦截器
+     */
+    @Around("auditAspect()")
+    public void WriteReadFromRedis(ProceedingJoinPoint point) throws Throwable {
+        System.out.println("触发环绕通知@Around()");
+        point.proceed();
     }
 
 }

@@ -14,6 +14,7 @@ public class HiController {
     @RequestMapping("/hi")
     @ResponseBody
     public String sayHi() {
+        System.out.println("有注解的controller");
         return "你好";
     }
 }

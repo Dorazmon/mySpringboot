@@ -1,6 +1,6 @@
 package com.zhang.springboot.collection;
 
-public class BillsNums {
+public class BillsNums implements TestBillsNums{
 
 	private String clothingid;
 	private String name;
@@ -8,6 +8,7 @@ public class BillsNums {
 	private double sums;
 
 	public BillsNums() {
+		System.out.println("g");
 
 	}
 
@@ -85,4 +86,12 @@ public class BillsNums {
 		this.sums = sums;
 	}
 
+	@Override
+	public void test() {
+		System.out.println("hahah");
+	}
+
+	public static void main(String[] args) {
+		BillsNums billsNums = new BillsNums();
+	}
 }

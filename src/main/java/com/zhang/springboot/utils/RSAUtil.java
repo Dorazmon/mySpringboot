@@ -39,7 +39,7 @@ public class RSAUtil {
         KeyPairGenerator keygen = KeyPairGenerator.getInstance(RSA_KEY_ALGORITHM);
         SecureRandom secrand = new SecureRandom();
         /**
-         * 初始化随机产生器
+         * 初始化随机产生器,可以改成随机字符串
          */
         secrand.setSeed("initSeed".getBytes());
         /**
