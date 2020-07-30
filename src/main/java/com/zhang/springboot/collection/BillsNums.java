@@ -8,7 +8,7 @@ public class BillsNums implements TestBillsNums{
 	private double sums;
 
 	public BillsNums() {
-		System.out.println("g");
+		//System.out.println("g");
 
 	}
 

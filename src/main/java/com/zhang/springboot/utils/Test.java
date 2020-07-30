@@ -7,8 +7,8 @@ public class Test {
 //            System.out.println(i);
 //        }
 
-        for(int j =0;j<100000;j++){
-            System.out.println(j);
+        for(int j =0;j<5000000;j++){
+
         }
         double end = (double)(System.currentTimeMillis()-timeStart)/1000;
         System.out.println(end+"s");
