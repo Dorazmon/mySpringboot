@@ -18,8 +18,9 @@ public class HiController {
     @ResponseBody
     public String sayHi() {
         System.out.println("有注解的controller");
-        return "你好V2";
+        return "你好v1";
     }
+
 
     public static void main(String[] args) {
         ArrayList a = new ArrayList();
