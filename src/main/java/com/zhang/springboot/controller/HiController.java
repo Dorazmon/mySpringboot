@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -18,7 +19,6 @@ import java.util.List;
 @Controller
 public class HiController {
 
-    @MyAnnotaion(name = "test", value = "7788")
     @RequestMapping("/hi")
     @ResponseBody
     public String sayHi() {
@@ -48,5 +48,13 @@ public class HiController {
         Enumeration<String> headerNames = httpServletRequest.getHeaderNames();
         System.out.println(httpServletRequest.getParameter("test"));
         System.out.println("接收");
+    }
+
+    @RequestMapping("/testFilter")
+    //@ResponseBody
+    public void testFilter(HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse) throws IOException {
+       httpServletRequest.getParameter("zhang");
+       PrintWriter printWriter = httpServletResponse.getWriter();
+       printWriter.print("controller-----hehe");
     }
 }
