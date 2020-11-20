@@ -7,10 +7,11 @@ public class MyTest {
   }
 
   public static void main(String[] args) {
-    MyTest myTest = new MyTest();
-    Integer num = new Integer(1);
-    myTest.addInteger(num);
-    System.out.println(num);
+//    MyTest myTest = new MyTest();
+//    Integer num = new Integer(1);
+//    myTest.addInteger(num);
+//    System.out.println(num);
+    System.out.println(8192&1);
   }
 
 }

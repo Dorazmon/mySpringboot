@@ -68,11 +68,16 @@ public class MyClassLoad extends ClassLoader{
     }
 
     public static void main(String[] args) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
-        MyClassLoad myClassLoad = new MyClassLoad("G:\\IdeaPj\\myPJ\\mySpringboot\\target\\classes\\com\\zhang\\springboot\\collection");
-        Class clazz = myClassLoad.loadClass("BillsNums");
+        //会报错然后认为不是一个类，强转后会失败
+        //MyClassLoad myClassLoad = new MyClassLoad("G:\\IdeaPj\\myPJ\\mySpringboot\\target\\classes\\com\\zhang\\springboot\\collection");
+        MyClassLoad myClassLoad = new MyClassLoad("G:\\IdeaPj\\myPJ\\mySpringboot\\target\\classes\\");
+        //name是唯一的全类名，否则会报强转失败,只能用接口指定
+        Class clazz = myClassLoad.findClass("com.zhang.springboot.collection.BillsNums");
         System.out.println(clazz.newInstance());
         //使用接口来接受，不能使用具体的类，否则会报错
         TestBillsNums object = (TestBillsNums) clazz.newInstance();
+        //BillsNums object = (BillsNums)clazz.newInstance();
+        System.out.println(object.getClass().toString());
         object.test();
 //        Method method = clazz.g
 //        billsNums.setName("haha");

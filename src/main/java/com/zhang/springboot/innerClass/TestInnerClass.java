@@ -1,6 +1,12 @@
 package com.zhang.springboot.innerClass;
 
 public class TestInnerClass {
+
+//  public TestInnerClass(){
+//    System.out.println("构造");
+//  }
+  private String name;
+
   static {
 
   }
