@@ -253,6 +253,10 @@ public class RSAUtil {
         return signature.verify(sign);
     }
 
+    public int getTest(){
+        return 8;
+    }
+
     public static void main(String[] args) {
         try {
             Map<String, String> keyMap = initKey();

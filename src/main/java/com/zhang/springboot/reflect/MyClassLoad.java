@@ -1,5 +1,6 @@
 package com.zhang.springboot.reflect;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import com.zhang.springboot.collection.BillsNums;
 import com.zhang.springboot.collection.TestBillsNums;
 
@@ -12,12 +13,26 @@ public class MyClassLoad extends ClassLoader{
     public MyClassLoad(String rootPath) {
         this.rootPath = rootPath;
     }
+
+    public MyClassLoad() {
+
+    }
+
+    public boolean havaLoad(String className){
+        Class<?> c = findLoadedClass(className);
+        if(c==null){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
     /**
-     * 根据name来寻找该类
+     * 根据name来寻找该类,不同的类加载器,加载到内存中，不共享
      *
      */
     @Override
-    protected Class<?> findClass(String name) throws ClassNotFoundException {
+    public Class<?> findClass(String name) throws ClassNotFoundException {
         Class<?> c = findLoadedClass(name);
         if (c == null) { // 内存堆中还没加载该类
             c = findMyClass(name); // 自己实现加载类
@@ -34,6 +49,7 @@ public class MyClassLoad extends ClassLoader{
     private Class<?> findMyClass(String name) {
         try {
             byte[] bytes = getData(name);
+            //核心方法loadClass
             return this.defineClass(null, bytes, 0, bytes.length); // 调用父类方法，生成具体类
         } catch (Exception e) {
             e.printStackTrace();
@@ -71,14 +87,21 @@ public class MyClassLoad extends ClassLoader{
         //会报错然后认为不是一个类，强转后会失败
         //MyClassLoad myClassLoad = new MyClassLoad("G:\\IdeaPj\\myPJ\\mySpringboot\\target\\classes\\com\\zhang\\springboot\\collection");
         MyClassLoad myClassLoad = new MyClassLoad("G:\\IdeaPj\\myPJ\\mySpringboot\\target\\classes\\");
-        //name是唯一的全类名，否则会报强转失败,只能用接口指定
-        Class clazz = myClassLoad.findClass("com.zhang.springboot.collection.BillsNums");
-        System.out.println(clazz.newInstance());
-        //使用接口来接受，不能使用具体的类，否则会报错
-        TestBillsNums object = (TestBillsNums) clazz.newInstance();
-        //BillsNums object = (BillsNums)clazz.newInstance();
-        System.out.println(object.getClass().toString());
-        object.test();
+//        //name是唯一的全类名，否则会报强转失败,只能用接口指定
+//        Class clazz = myClassLoad.findClass("com.zhang.springboot.collection.BillsNums");
+//        System.out.println(myClassLoad.havaLoad("com.zhang.springboot.collection.BillsNums"));
+//        System.out.println(clazz.newInstance());
+        MyClassLoadTwo myClassLoadTwo = new MyClassLoadTwo();
+        System.out.println(myClassLoadTwo.loadClass("com.zhang.springboot.collection.BillsNums"));
+        System.out.println(myClassLoadTwo.havaLoad("com.zhang.springboot.collection.BillsNums"));
+        System.out.println(myClassLoadTwo.loadClass("com.zhang.springboot.collection.BillsNums"));
+//        System.out.println(myClassLoadTwo.loadClass("com.zhang.springboot.collection.BillsNums") == myClassLoadTwo.loadClass("com.zhang.springboot.collection.BillsNums"));
+//        System.out.println(clazz == myClassLoadTwo.loadClass("com.zhang.springboot.collection.BillsNums"));
+//        //使用接口来接受，不能使用具体的类，否则会报错
+//        TestBillsNums object = (TestBillsNums) clazz.newInstance();
+//        //BillsNums object = (BillsNums)clazz.newInstance();
+//        System.out.println(object.getClass().toString());
+//        object.test();
 //        Method method = clazz.g
 //        billsNums.setName("haha");
 //
@@ -86,5 +109,8 @@ public class MyClassLoad extends ClassLoader{
 //        BillsNums billsNums = (BillsNums) claszz.newInstance();
 //        billsNums.setName("hhh");
 //        System.out.println(billsNums);
+//        MyClassLoad myClassLoad = new MyClassLoad();
+//        System.out.println(myClassLoad.havaLoad("com.zhang.springboot.reflect.MyClassLoad"));
+//        myClassLoad.findClass("java.io.PrintStream");
     }
 }
