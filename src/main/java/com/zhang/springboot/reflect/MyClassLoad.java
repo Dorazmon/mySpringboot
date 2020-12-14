@@ -1,11 +1,12 @@
 package com.zhang.springboot.reflect;
 
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
-import com.zhang.springboot.collection.BillsNums;
-import com.zhang.springboot.collection.TestBillsNums;
+import com.zhang.springboot.utils.FileUtil;
 
 import java.io.*;
-import java.lang.reflect.Method;
+import java.net.URL;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
 
 public class MyClassLoad extends ClassLoader{
     private String rootPath;
@@ -83,34 +84,46 @@ public class MyClassLoad extends ClassLoader{
         return null;
     }
 
-    public static void main(String[] args) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
-        //会报错然后认为不是一个类，强转后会失败
-        //MyClassLoad myClassLoad = new MyClassLoad("G:\\IdeaPj\\myPJ\\mySpringboot\\target\\classes\\com\\zhang\\springboot\\collection");
-        MyClassLoad myClassLoad = new MyClassLoad("G:\\IdeaPj\\myPJ\\mySpringboot\\target\\classes\\");
-//        //name是唯一的全类名，否则会报强转失败,只能用接口指定
-//        Class clazz = myClassLoad.findClass("com.zhang.springboot.collection.BillsNums");
-//        System.out.println(myClassLoad.havaLoad("com.zhang.springboot.collection.BillsNums"));
-//        System.out.println(clazz.newInstance());
-        MyClassLoadTwo myClassLoadTwo = new MyClassLoadTwo();
-        System.out.println(myClassLoadTwo.loadClass("com.zhang.springboot.collection.BillsNums"));
-        System.out.println(myClassLoadTwo.havaLoad("com.zhang.springboot.collection.BillsNums"));
-        System.out.println(myClassLoadTwo.loadClass("com.zhang.springboot.collection.BillsNums"));
-//        System.out.println(myClassLoadTwo.loadClass("com.zhang.springboot.collection.BillsNums") == myClassLoadTwo.loadClass("com.zhang.springboot.collection.BillsNums"));
-//        System.out.println(clazz == myClassLoadTwo.loadClass("com.zhang.springboot.collection.BillsNums"));
-//        //使用接口来接受，不能使用具体的类，否则会报错
-//        TestBillsNums object = (TestBillsNums) clazz.newInstance();
-//        //BillsNums object = (BillsNums)clazz.newInstance();
-//        System.out.println(object.getClass().toString());
-//        object.test();
-//        Method method = clazz.g
-//        billsNums.setName("haha");
-//
-//        Class<?> claszz = Class.forName("com.zhang.springboot.collection.BillsNums");
-//        BillsNums billsNums = (BillsNums) claszz.newInstance();
-//        billsNums.setName("hhh");
-//        System.out.println(billsNums);
-//        MyClassLoad myClassLoad = new MyClassLoad();
-//        System.out.println(myClassLoad.havaLoad("com.zhang.springboot.reflect.MyClassLoad"));
-//        myClassLoad.findClass("java.io.PrintStream");
+    public Class<?> getClassByInputstream(InputStream is) throws IOException {
+        byte[] buffer=new byte[1024];
+        int len=0;
+        ByteArrayOutputStream bos=new ByteArrayOutputStream();
+        while((len=is.read(buffer))!=-1){
+            bos.write(buffer,0,len);
+        }
+        bos.flush();
+        byte[] byteClass = bos.toByteArray();
+        return this.defineClass(null, byteClass, 0, byteClass.length); // 调用父类方法，生成具体类
+    }
+
+    public Class<?> getClassByJar(String jarName,String ClassName) throws IOException, IllegalAccessException, InstantiationException {
+        URL url = Thread.currentThread().getContextClassLoader().getResource(jarName);
+        InputStream is = url.openStream();
+        File file = FileUtil.saveTempFile(is,"G://test/tempFile.jar");
+        ZipFile zf = new ZipFile(file);
+        InputStream in = new BufferedInputStream(new FileInputStream(file));
+        ZipInputStream zin = new ZipInputStream(in);
+        ZipEntry ze;
+        Class clazz = null;
+        while ((ze = zin.getNextEntry()) != null) {
+            if (ze.isDirectory()) {
+            } else {
+                if(ze.getName().equals(ClassName)){
+                    InputStream apiClass = zf.getInputStream(ze);
+                    MyClassLoad myClassLoad = new MyClassLoad();
+                    clazz = myClassLoad.getClassByInputstream(apiClass);
+                    System.out.println(clazz.newInstance());
+                    //FileUtil.saveTempFile(apiClass,"G://test/ApiException.class");
+                    System.out.println(apiClass);
+                }
+            }
+        }
+        zin.closeEntry();
+        return clazz;
+    }
+
+    public static void main(String[] args) throws IllegalAccessException, InstantiationException, IOException {
+        MyClassLoad myClassLoad = new MyClassLoad();
+        myClassLoad.getClassByJar("taobao.jar","com/taobao/api/ApiException.class");
     }
 }
