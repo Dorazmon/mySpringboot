@@ -1,10 +1,10 @@
-package com.zhang.springboot.thread.lock;
+package com.zhang.springboot.thread.lock.pessimisticLock;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class SayHi implements IRunable{
+public class SayHi implements IRunable {
   private static int counter = 1;
   private Lock lock;
   private Condition condition;

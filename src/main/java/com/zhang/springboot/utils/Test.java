@@ -2,6 +2,7 @@ package com.zhang.springboot.utils;
 
 public class Test {
     public static void main(String[] args) {
+
 //        int i = 8 | 9;
 //        int j = 2 & 2;
 //        System.out.println(i);

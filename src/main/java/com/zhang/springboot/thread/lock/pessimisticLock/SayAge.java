@@ -1,21 +1,20 @@
-package com.zhang.springboot.thread.lock;
+package com.zhang.springboot.thread.lock.pessimisticLock;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 
-public class SayName implements IRunable{
-
+public class SayAge implements IRunable {
   private Lock lock;
   private Condition condition;
   private int order;
   private int orderCount;
 
   public void setLock(Lock lock) {
-    this.lock=lock;
+    this.lock = lock;
   }
 
-  public void setCondition(Condition condition) {
-    this.condition=condition;
+  public void setCondition(Condition condition){
+    this.condition = condition;
   }
 
   public void handle(){
@@ -25,12 +24,12 @@ public class SayName implements IRunable{
         condition.signalAll();
         condition.await();
       }
-      System.out.println("say name");
+      System.out.println("say age");
       order++;
       condition.signalAll();
-    } catch (Exception e){
+    } catch (InterruptedException e) {
       e.printStackTrace();
-    }finally {
+    } finally {
       lock.unlock();
     }
   }
@@ -44,5 +43,4 @@ public class SayName implements IRunable{
   public void setOrderCount(int orderCount) {
     this.orderCount = orderCount;
   }
-
 }

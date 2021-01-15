@@ -1,4 +1,4 @@
-package com.zhang.springboot.thread.lock;
+package com.zhang.springboot.thread.lock.pessimisticLock;
 
 import java.util.List;
 

@@ -112,7 +112,7 @@ public class MyClassLoad extends ClassLoader{
                     InputStream apiClass = zf.getInputStream(ze);
                     MyClassLoad myClassLoad = new MyClassLoad();
                     clazz = myClassLoad.getClassByInputstream(apiClass);
-                    System.out.println(clazz.newInstance());
+                    System.out.println(clazz.newInstance().getClass().getClassLoader());
                     //FileUtil.saveTempFile(apiClass,"G://test/ApiException.class");
                     System.out.println(apiClass);
                 }
