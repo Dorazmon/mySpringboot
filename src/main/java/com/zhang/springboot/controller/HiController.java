@@ -18,11 +18,14 @@ import java.util.List;
 
 @Controller
 public class HiController {
+    //测试为单例
+    private String test = "";
 
     @RequestMapping("/hi")
     @ResponseBody
     public String sayHi() {
         System.out.println("有注解的controller");
+        test = "hi";
         return "你好v1";
     }
 
