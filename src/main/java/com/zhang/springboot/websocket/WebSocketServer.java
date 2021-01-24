@@ -2,11 +2,8 @@ package com.zhang.springboot.websocket;
 
 import cn.hutool.log.Log;
 import cn.hutool.log.LogFactory;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
@@ -17,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * //多例一个连接,创建一个对象
- * @author zhengkai.blog.csdn.net
+ * @author Emon
  */
 @ServerEndpoint("/imserver")
 @Component
