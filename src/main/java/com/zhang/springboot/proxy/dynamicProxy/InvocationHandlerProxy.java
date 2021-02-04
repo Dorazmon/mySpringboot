@@ -31,6 +31,7 @@ public class InvocationHandlerProxy implements InvocationHandler {
         InvocationHandlerProxy invocationHandlerProxy = new InvocationHandlerProxy();
         People people = new People();
         invocationHandlerProxy.setTarObject(people);
+        //Class[] classes = new Class[]{RentHouse.class};
         RentHouse peopleProxy = (RentHouse) Proxy.newProxyInstance(people.getClass().getClassLoader(), people.getClass().getInterfaces(), invocationHandlerProxy);
         peopleProxy.rent();
     }
